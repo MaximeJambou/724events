@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -13,7 +15,14 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+  const {data} = useData()
+  const [last, setLast] = useState(null);
+  useEffect( () => {
+    if (data === null) {
+      return ;
+    }
+    setLast(data.events[data.events.length -1])
+  },[data])
   return <>
     <header>
       <Menu />
