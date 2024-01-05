@@ -21,7 +21,7 @@ const Page = () => {
     if (data === null) {
       return ;
     }
-    setLast(data.events[data.events.length -1])
+    setLast(data?.events[data.events.length -1])
   },[data])
   return <>
     <header>
