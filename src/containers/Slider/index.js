@@ -21,6 +21,12 @@ const Slider = () => {
   useEffect(() => {
     nextCard();
   });
+
+  const handleRadioChange = (newIndex) => {
+    setIndex(newIndex);
+  };
+  
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
@@ -48,6 +54,7 @@ const Slider = () => {
                   type="radio"
                   name="radio-button"
                   checked={index === radioIdx}
+                  onChange={() => handleRadioChange(radioIdx)}
                 />
               ))}
             </div>
