@@ -23,9 +23,9 @@ export const DataProvider = ({ children }) => {
   const getData = useCallback(async () => {
     try {
       const apiData = await api.loadData();
+      const sortedEvents = [...apiData.events].sort((a, b) => new Date(b.date) - new Date(a.date));
       setData(apiData);
-      console.log(data);
-      setLast(apiData.events[apiData.events.length-1]);
+      setLast(sortedEvents[0]);
     } catch (err) {
       setError(err);
     }
