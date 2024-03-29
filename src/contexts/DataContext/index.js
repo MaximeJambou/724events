@@ -23,6 +23,28 @@ export const DataProvider = ({ children }) => {
   const getData = useCallback(async () => {
     try {
       const apiData = await api.loadData();
+
+      // Élimination des doublons basée sur toutes les propriétés excepté l'id
+      const eventsWithUniqueContent = apiData.events.reduce((unique, event) => {
+        const isDuplicate = unique.some(e => 
+          e.type === event.type && 
+          e.date === event.date && 
+          e.title === event.title && 
+          e.cover === event.cover && 
+          e.description === event.description && 
+          e.nb_guesses === event.nb_guesses && 
+          e.periode === event.periode && 
+          JSON.stringify(e.prestations) === JSON.stringify(event.prestations)
+        );
+
+        if (!isDuplicate) {
+          unique.push(event);
+        }
+        return unique;
+      }, []);
+
+      apiData.events = eventsWithUniqueContent;
+
       const sortedEvents = [...apiData.events].sort((a, b) => new Date(b.date) - new Date(a.date));
       setData(apiData);
       setLast(sortedEvents[0]);
